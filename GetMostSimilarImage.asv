@@ -8,10 +8,10 @@ function [ similarImageIndex ] = GetMostSimilarImage(targetPatch, imagesHists)
     binNum = 1024;
 
     targetPatch = (targetPatch(:,:,1) * 256^2 + targetPatch(:,:,2) * 256 + targetPatch(:,:,3));
-    histPatch = hist(targetPatch(:), binNum)/numel(targetPatch);
+    histA = hist(a(:), binNum)/numel(a);
         
     for j=1:size(imagesHists, 1)
-        currentChi = ChiDistance(histPatch, imagesHists(j));
+        currentChi = ChiDistance(targetPatch, imagesHists(j));
         if currentChi < chi
             chi = currentChi;
             similarImageIndex = j;       

@@ -1,7 +1,7 @@
 function [ O ] = resize( I )
 %Resizes image by sub/super sampling and cropping to make it 200 x 200
 %pixels
-    OUT_SIZE = 200;
+    OUT_SIZE = 20;
 
     %Decide what dimension to resize
     %Take the minimum dimension

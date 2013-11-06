@@ -1,22 +1,27 @@
-function [ similarImageIndex ] = GetMostSimilarImage(targetPatch, imagesHists)
+function [ similarImageIndex ] = GetMostSimilarImage(targetPatch, imagesHists, lbpHists)
 %Iterates over all the source images to find the best match for the target
 %patch
     %Finds the minimum Chi Square Distance
-
-    chi = 1;
     
-    binNum = 1024;
+    %Compute LBP historgram of target patch
+    histLbp = LBPHist(targetPatch);
 
-    targetPatch = (targetPatch(:,:,1) * 256^2 + targetPatch(:,:,2) * 256 + targetPatch(:,:,3));
-    histPatch = hist(targetPatch(:), binNum)/numel(targetPatch);
+    %Compute RGB histogram of target patch
+    histPatch = rgbHist(targetPatch);
+
+    chi = ChiDistance(histPatch, imagesHists(1, :));
+    lbpChi = ChiDistance(histLbp, lbpHists(1, :));    
+    similarImageIndex = 1; 
+    
+    for j=2:size(imagesHists, 1),
+        currentChi = ChiDistance(histPatch, imagesHists(j, :));
+        currentLbpChi = ChiDistance(histLbp, lbpHists(j, :));        
         
-    for j=1:size(imagesHists, 1)
-        currentChi = ChiDistance(histPatch, imagesHists(j));
-        if currentChi < chi
+        if 0.6 * currentChi + 1 * currentLbpChi < (0.6 * chi + 1 * lbpChi)
             chi = currentChi;
+            lbpChi = currentLbpChi;
             similarImageIndex = j;       
         end
     end
-
 end
 

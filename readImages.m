@@ -5,7 +5,7 @@ function [ O ] = readImages(SOURCE_PATH)
     filenames = dir(fullfile(SOURCE_PATH, '*.jpg'));
     
     %Pre-allocation optomisation
-    IMAGE_SIZE = 200;
+    IMAGE_SIZE = 20;
     O = zeros(IMAGE_SIZE, IMAGE_SIZE, 3, size(filenames, 1), 'uint8');
     
     %Read all images

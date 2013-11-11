@@ -1,8 +1,10 @@
-function [ O ] = ImageMosaic( I, images )
+function [ O ] = ImageMosaic( I, MAN_PATH, NAT_PATH, PATCH_SIZE )
 %Makes a new composite image O, based on target image I
-%   Detailed explanation goes here
 
-IMAGE_SIZE = 20;
+%Read and resize images
+manmadeImages = readResize(MAN_PATH, PATCH_SIZE); 
+naturalImages = readResize(NAT_PATH, PATCH_SIZE);
+images = cat(4, manmadeImages, naturalImages);
 
 O = I;
 
@@ -19,14 +21,14 @@ O = I;
     'done computing source histograms'
 
     %Then find the most similar image for each patch
-    for j=IMAGE_SIZE:IMAGE_SIZE:size(I, 1)
-        for k=IMAGE_SIZE:IMAGE_SIZE:size(I, 2)
-            targetPatch = I(j-(IMAGE_SIZE-1):j, k-(IMAGE_SIZE-1):k, :);
+    for j=PATCH_SIZE:PATCH_SIZE:size(I, 1)
+        for k=PATCH_SIZE:PATCH_SIZE:size(I, 2)
+            targetPatch = I(j-(PATCH_SIZE-1):j, k-(PATCH_SIZE-1):k, :);
             subImageIndex = GetMostSimilarImage(targetPatch, imageHists, lbpHists);
             
             %replace part of the output image with the most similar source
             %image
-            O(j-(IMAGE_SIZE-1):j, k-(IMAGE_SIZE-1):k, :) = images(:, :, :, subImageIndex);
+            O(j-(PATCH_SIZE-1):j, k-(PATCH_SIZE-1):k, :) = images(:, :, :, subImageIndex);
         end
     end
 end

@@ -7,14 +7,16 @@ function [ output_args ] = tester( mdl, TEST_IMAGE_PATH, TARGET_OUTPUT )
     filenames = dir(fullfile(TEST_IMAGE_PATH, '*.jpg'));
     for j = 1 : size(filenames, 1),
         I = imread(fullfile(TEST_IMAGE_PATH, filenames(j).name));
-        top = I(1:size(I,1)/2, :,:);
-        bottom = I(size(I,1)/2 + 1:end, :,:);
-        class = predict(mdl, [rgbHist(I(1:size(I,1)/2, :,:)), rgbHist( I(size(I,1)/2 +1:end, :,:))]);
+        featureSet = extractFeatureSet(I);
+        
+        class = predict(mdl, featureSet);
+        
         
         if class == TARGET_OUTPUT,
             correctClassCount = correctClassCount + 1;
         else
             'incorrectly classified:'
+            imshow(I)
             j
             filenames(j).name
             incorrectClassCount = incorrectClassCount + 1; 

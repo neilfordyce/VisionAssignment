@@ -23,12 +23,20 @@ function [ similarImageIndex ] = getMostSimilarImage(targetPatch, NBPatch, RGBHi
         currentLBPDist = distance(histLBP, LBPHists(j, :));
         currentNBTDist = distance(histNBT, NBTHists(j, :));
         
-        if 0.6 * currentRGBDist + 0.3 * currentLBPDist + 0.1 * currentNBTDist < (0.6 * RGBDist + 0.3 * LBPDist + 0.1 * NBTDist)
+        if diffFunction(currentRGBDist, currentLBPDist, currentNBTDist) ...
+                < diffFunction(RGBDist, LBPDist, NBTDist)
             RGBDist = currentRGBDist;
             LBPDist = currentLBPDist;
             NBTDist = currentNBTDist;
             similarImageIndex = j;
         end
     end
+end
+
+
+%%Determines the amount of difference in two images by comparing their
+%%similarity via a linear combination of a number of difference metrics
+function [ diff ] = diffFunction(RGBDist, LBPDist, NBTDist)
+    diff = 0.6 * RGBDist + 0.3 * LBPDist + 0.1 * NBTDist;
 end
 

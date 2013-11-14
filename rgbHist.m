@@ -1,4 +1,4 @@
-function [ out_hist ] = rgbHist( I )
+function [ out_hist ] = RGBHist( I )
 %Makes a histogram of an RGB Image
     numOfBins = 256;
     channelLevels = 256;

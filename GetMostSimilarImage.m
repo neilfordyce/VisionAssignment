@@ -1,26 +1,33 @@
-function [ similarImageIndex ] = GetMostSimilarImage(targetPatch, imagesHists, lbpHists)
+function [ similarImageIndex ] = getMostSimilarImage(targetPatch, NBPatch, RGBHists, LBPHists, NBTHists)
 %Iterates over all the source images to find the best match for the target
 %patch
-    %Finds the minimum Chi Square Distance
+    %Finds the minimum Dis Square Distance
     
     %Compute LBP historgram of target patch
-    histLbp = LBPHist(targetPatch);
+    histLBP = LBPHist(targetPatch);
 
     %Compute RGB histogram of target patch
-    histPatch = rgbHist(targetPatch);
+    histRGB = RGBHist(targetPatch);
+    
+    %Compute RGB histogram of target patch
+    histNBT = RGBHist(NBPatch);
 
-    chi = ChiDistance(histPatch, imagesHists(1, :));
-    lbpChi = ChiDistance(histLbp, lbpHists(1, :));    
+    %Compute the first distance values for each histgram types.
+    RGBDist = distance(histRGB, RGBHists(1, :));
+    LBPDist = distance(histLBP, LBPHists(1, :));
+    NBTDist = distance(histNBT, NBTHists(1, :));
     similarImageIndex = 1; 
     
-    for j=2:size(imagesHists, 1),
-        currentChi = ChiDistance(histPatch, imagesHists(j, :));
-        currentLbpChi = ChiDistance(histLbp, lbpHists(j, :));        
+    for j=2:size(RGBHists, 1), %size(RGBHists, 1) is actually the numOfBins defined in RGBHist.m
+        currentRGBDist = distance(histRGB, RGBHists(j, :));
+        currentLBPDist = distance(histLBP, LBPHists(j, :));
+        currentNBTDist = distance(histNBT, NBTHists(j, :));
         
-        if 0.6 * currentChi + 1 * currentLbpChi < (0.6 * chi + 1 * lbpChi)
-            chi = currentChi;
-            lbpChi = currentLbpChi;
-            similarImageIndex = j;       
+        if 0.6 * currentRGBDist + 0.3 * currentLBPDist + 0.1 * currentNBTDist < (0.6 * RGBDist + 0.3 * LBPDist + 0.1 * NBTDist)
+            RGBDist = currentRGBDist;
+            LBPDist = currentLBPDist;
+            NBTDist = currentNBTDist;
+            similarImageIndex = j;
         end
     end
 end

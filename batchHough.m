@@ -7,6 +7,8 @@ function [ ] = batchHough( TEST_IMAGE_PATH )
     for j = 1 : size(filenames, 1),
         try
         I = imread(fullfile(TEST_IMAGE_PATH, filenames(j).name));
+        PAD = 10;
+        I = I(PAD:end - PAD, PAD:end - PAD, :);
         applyHough(I, k);
         
         k = k+1;

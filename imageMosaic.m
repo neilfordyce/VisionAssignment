@@ -13,14 +13,13 @@ O = I;
     %Compute all the source histograms now
     RGBHists = [];
     LBPHists = [];
-    NBTHists = [];
     
     for j = 1:size(images, 4) %size(images, 4) is actually the total number of all images
         image = images(:,:,:,j);
         RGBHists = [RGBHists; RGBHist(image)]; %adds a new element into the histogram each time it iterates
         LBPHists = [LBPHists; LBPHist(image)];
-        NBTHists = [NBTHists; NBTHist(image)];
     end
+        NBTHists = RGBHists;
 
     'done computing source histograms'
 

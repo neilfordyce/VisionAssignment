@@ -1,4 +1,4 @@
-function [ similarImageIndex ] = getMostSimilarImage(targetPatch, NBPatch, RGBHists, LBPHists, NBTHists)
+function [ similarImageIndex ] = getMostSimilarImage(targetPatch, NBPatch, RGBHists, LBPHists)
 %Iterates over all the source images to find the best match for the target
 %patch
     %Finds the minimum Dis Square Distance
@@ -15,13 +15,13 @@ function [ similarImageIndex ] = getMostSimilarImage(targetPatch, NBPatch, RGBHi
     %Compute the first distance values for each histgram types.
     RGBDist = distance(histRGB, RGBHists(1, :));
     LBPDist = distance(histLBP, LBPHists(1, :));
-    NBTDist = distance(histNBT, NBTHists(1, :));
+    NBTDist = distance(histNBT, RGBHists(1, :));
     similarImageIndex = 1; 
     
     for j=2:size(RGBHists, 1), %size(RGBHists, 1) is actually the numOfBins defined in RGBHist.m
         currentRGBDist = distance(histRGB, RGBHists(j, :));
         currentLBPDist = distance(histLBP, LBPHists(j, :));
-        currentNBTDist = distance(histNBT, NBTHists(j, :));
+        currentNBTDist = distance(histNBT, RGBHists(j, :));
         
         if diffFunction(currentRGBDist, currentLBPDist, currentNBTDist) ...
                 < diffFunction(RGBDist, LBPDist, NBTDist)

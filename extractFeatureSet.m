@@ -15,7 +15,7 @@ function [ featureSet ] = extractFeatureSet( I )
         %Find the length of all the lines
         for j=1:size(lines, 2),  %Number of lines found
             length = pdist([lines(j).point1; lines(j).point2], 'euclidean');
-            lines(j).length = length / pdist([[0, 0]; [size(I, 1), size(I, 2)]], 'euclidean');
+            lines(j).length = length;
         end
         
         %lineOrientationVariance = mean([lines(:).orientation]);
@@ -43,5 +43,9 @@ function [ featureSet ] = extractFeatureSet( I )
     sortedLines = sort(sortedLines, 'descend');
     sortedLines = sortedLines(1:5);     
     
-    featureSet = [RGBHist(top), RGBHist(bottom), sortedLines, lineCount, lineLengthMean, lineLengthVar];
+    %Calculate connected components of edges stats
+    [meanArea, varArea] = connectedCompStats(I);
+    
+    featureSet = [RGBHist(top), RGBHist(bottom), sortedLines, lineCount, ...
+        lineLengthMean, lineLengthVar, meanArea, varArea];
 end

@@ -1,4 +1,4 @@
-function [ mdl ] = trainer()
+function [ mdl, trainingSet, Y ] = trainer()
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
 

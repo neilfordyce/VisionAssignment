@@ -13,6 +13,4 @@ function [ O ] = readResize(SOURCE_PATH, OUT_SIZE)
         I = resize(I, OUT_SIZE);
         O(:, :, :, j) = I;
     end
-
 end
-

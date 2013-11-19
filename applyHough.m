@@ -19,7 +19,7 @@ function [ lines ] = applyHough( I )
     
     %plot(x,y,'s','color','white');
     lines = houghlines(BW,T,R,P,'FillGap',5,'MinLength',50);
-    imshow(I), hold on
+    %imshow(I), hold on
     max_len = 0;
     
     for k = 1:length(lines)

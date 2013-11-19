@@ -1,14 +1,14 @@
 function [ O ] = imageMosaic( I, MAN_PATH, NAT_PATH, PATCH_SIZE )
 %Makes a new composite image O, based on target image I
 
-%Read and resize images
-manmadeImages = readResize(MAN_PATH, PATCH_SIZE); 
-naturalImages = readResize(NAT_PATH, PATCH_SIZE);
-%Concatenate the manmadeImages and naturalImages into a 4 dimensional array
-%calls images
-images = cat(4, manmadeImages, naturalImages);
+    %Read and resize images
+    manmadeImages = readResize(MAN_PATH, PATCH_SIZE); 
+    naturalImages = readResize(NAT_PATH, PATCH_SIZE);
+    %Concatenate the manmadeImages and naturalImages into a 4 dimensional array
+    %calls images
+    images = cat(4, manmadeImages, naturalImages);
 
-O = I;
+    O = I;
 
     %Compute all the source histograms now
     RGBHists = [];
@@ -35,3 +35,4 @@ O = I;
         end
     end
 end
+

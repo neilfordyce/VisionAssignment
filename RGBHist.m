@@ -1,6 +1,10 @@
-function [ out_hist ] = RGBHist( I )
+function [ out_hist ] = RGBHist( I, numOfBins )
 %Makes a histogram of an RGB Image
-    numOfBins = 256;
+    I = RGB2Lab(I);
+    
+    if ~exist('numOfBins', 'var') %If no numOfBins specified
+        numOfBins = 256;  %Default to 256
+    end
     channelLevels = 256;
 
     %Flatten the RGB channels into a colour cube representation

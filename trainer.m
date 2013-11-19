@@ -3,8 +3,8 @@ function [ mdl, trainingSet, Y ] = trainer()
 %   Detailed explanation goes here
 
     %%Make up the training set matrix
-    manmadeTraining = buildTrainingSet('Images/manmade_training');
-    naturalTraining = buildTrainingSet('Images/natural_training');
+    manmadeTraining = buildTrainingSet('D:/Images/manmade_training');
+    naturalTraining = buildTrainingSet('D:/Images/natural_training');
     trainingSet = [manmadeTraining; naturalTraining];
     
     %Make up the vector which specifies the class of each row in the

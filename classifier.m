@@ -1,4 +1,4 @@
-function [ CLASSIFIED_PATH_STR ] = classifier( mdl, IMAGE_PATH, TARGET_IMAGE_PATH)
+function [ classifiedPath ] = classifier( mdl, IMAGE_PATH, TARGET_IMAGE_PATH)
 %Classify the given images. IMAGE_PATH is the path of the given images, and
 %TARGET_IMAGE_PATH is the path of Monalisa.
 
@@ -8,16 +8,16 @@ function [ CLASSIFIED_PATH_STR ] = classifier( mdl, IMAGE_PATH, TARGET_IMAGE_PAT
     
     for j = 1 : size(filenames, 1),
         if IMGPredict(mdl, fullfile(IMAGE_PATH, filenames(j).name)) == 1,
-            NATImagePath = [NATImagePath, fullfile(IMAGE_PATH, filenames(j).name)];
+            NATImagePath = [NATImagePath; fullfile(IMAGE_PATH, filenames(j).name)];
         else
-            MANImagePath = [MANImagePath, fullfile(IMAGE_PATH, filenames(j).name)];
+            MANImagePath = [MANImagePath; fullfile(IMAGE_PATH, filenames(j).name)];
         end
     end
     
     if IMGPredict(mdl, TARGET_IMAGE_PATH) == 1,
-        CLASSIFIED_PATH_STR = NATImagePath;
+        classifiedPath = NATImagePath;
     else
-        CLASSIFIED_PATH_STR = MANImagePath;
+        classifiedPath = MANImagePath;
     end
 
 end

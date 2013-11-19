@@ -11,7 +11,7 @@ function [ mdl, trainingSet, Y ] = trainer()
     Y = [ones(500, 1); ones(500, 1) * -1];
     
     %Make the model from the training set
-    mdl = ClassificationKNN.fit(trainingSet, Y, 'NumNeighbors', 3);
+    mdl = ClassificationKNN.fit(trainingSet, Y, 'NumNeighbors', 7);
 end
 
 %%Builds the training set matrix.  Every row is a feature set for a

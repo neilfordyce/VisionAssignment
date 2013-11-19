@@ -9,8 +9,8 @@ function [ mdl, trainingSet, Y ] = trainer()
     
     %Make up the vector which specifies the class of each row in the
     %training set
-    Y = [ones(size(manmadeTraining, 1)); ones(size(naturalTraining, 1)) * -1];
-    
+    Y = [ones(size(manmadeTraining, 1), 1); ones(size(naturalTraining, 1), 1) * -1];
+
     %Make the model from the training set
     mdl = ClassificationKNN.fit(trainingSet, Y, 'NumNeighbors', 7);
 end

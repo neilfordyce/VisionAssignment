@@ -3,23 +3,29 @@ function [ lines ] = applyHough( I )
     GRAY=rgb2gray(I);
     BW = edge(GRAY,'canny');
     
-   % subplot(1,2,1)
-  %  imshow(I)
-    %subplot(1,2,2)
- %   imshow(BW)
+    %{
+    subplot(1,2,1)
+    imshow(I)
+    subplot(1,2,2)
+    imshow(BW)
+    %}
     
     [H,T,R] = hough(BW);
     
-    %imshow(H,[],'XData',T,'YData',R, 'InitialMagnification','fit');
-    %xlabel('\theta'), ylabel('\rho');
-    %axis on, axis normal, hold on;
+    %{
+    imshow(H,[],'XData',T,'YData',R, 'InitialMagnification','fit');
+    xlabel('\theta'), ylabel('\rho');
+    axis on, axis normal, hold on;
+    %}
     
     P  = houghpeaks(H,10,'threshold',ceil(0.4*max(H(:))));
     %x = T(P(:,2)); y = R(P(:,1));
     
     %plot(x,y,'s','color','white');
     lines = houghlines(BW,T,R,P,'FillGap',5,'MinLength',50);
-    %imshow(I), hold on
+    
+    %{
+    imshow(I), hold on
     max_len = 0;
     
     for k = 1:length(lines)
@@ -44,5 +50,6 @@ function [ lines ] = applyHough( I )
 
         end
     end
+    %}
     
 end

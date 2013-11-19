@@ -18,18 +18,21 @@ end
 %%Builds the training set matrix.  Every row is a feature set for a
 %%particular training example.  Every column is a particular feature.
 function [trainingSet] = buildTrainingSet(IMAGE_PATH)
-    %CROP = 10; % Amount of pixels to remove from border.  
+    CROP = 10; % Amount of pixels to remove from border.  
                % Prevents lines caused by artifacts and embossing
-
-    trainingSet = [];
     
     filenames = dir(fullfile(IMAGE_PATH, '*.jpg'));
+    
+    %Pre-allocate trainingSet for speed
+    featureVectorSize = size(extractFeatureSet(zeros(10,10,3)), 2);
+    trainingSet = zeros(size(filenames, 1), featureVectorSize);
+    
     for j = 1 : size(filenames, 1),
         j
         I = imread(fullfile(IMAGE_PATH, filenames(j).name));
-        %I = I(CROP:end - CROP, CROP:end - CROP, :);
+        I = I(CROP:end - CROP, CROP:end - CROP, :);
         featureSet = extractFeatureSet(I);
         
-        trainingSet = [trainingSet; featureSet];
+        trainingSet(j, :) = featureSet;
     end
 end

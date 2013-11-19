@@ -17,7 +17,7 @@ end
 %%Applies hough transform to lines and extracts features based on
 %%identified lines
 function [lineCount, lineLengthMean, lineLengthVar, topLines] = extractLines(I)
-        MAX_LINES = 5;  %Max number of lines to classify
+    MAX_LINES = 5;  %Max number of lines to classify
     lineCount = 0;
     lineLengthMean = -1;
     lineLengthVar = -1;

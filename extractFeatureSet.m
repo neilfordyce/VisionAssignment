@@ -2,7 +2,22 @@ function [ featureSet ] = extractFeatureSet( I )
 %Extracts various features and packs them in a vector
     top = I(1:uint16(size(I,1)/2), :,:);
     bottom = I(uint16(size(I,1)/2) + 1:end, :,:);
-    MAX_LINES = 5;  %Max number of lines to classify
+
+    %Extract info about lines
+    [lineCount, lineLengthMean, lineLengthVar, topLines] = extractLines(I);
+    
+    %Calculate connected components of edges stats
+    [meanArea, varArea, meanPerim, varPerim] = connectedCompStats(I);
+    
+    featureSet = [RGBHist(top, 16), RGBHist(bottom, 16), topLines, ...
+        lineCount, lineLengthMean, lineLengthVar, meanArea, varArea, ... 
+        meanPerim, varPerim];
+end
+
+%%Applies hough transform to lines and extracts features based on
+%%identified lines
+function [lineCount, lineLengthMean, lineLengthVar, topLines] = extractLines(I)
+        MAX_LINES = 5;  %Max number of lines to classify
     lineCount = 0;
     lineLengthMean = -1;
     lineLengthVar = -1;
@@ -41,11 +56,5 @@ function [ featureSet ] = extractFeatureSet( I )
     %Sort the lines by length then pick top 5
     sortedLines = [lines(:).length];
     sortedLines = sort(sortedLines, 'descend');
-    sortedLines = sortedLines(1:5);     
-    
-    %Calculate connected components of edges stats
-    [meanArea, varArea] = connectedCompStats(I);
-    
-    featureSet = [RGBHist(top), RGBHist(bottom), sortedLines, lineCount, ...
-        lineLengthMean, lineLengthVar, meanArea, varArea];
+    topLines = sortedLines(1:5);
 end

@@ -10,18 +10,18 @@ function [ similarImageIndex ] = getMostSimilarImage(targetPatch, NBPatch, RGBHi
     histRGB = RGBHist(targetPatch);
     
     %Compute RGB histogram of target patch
-    histNBT = RGBHist(NBPatch);
+    %histNBT = RGBHist(NBPatch);
 
     %Compute the first distance values for each histgram types.
     RGBDist = distance(histRGB, RGBHists(1, :));
     LBPDist = distance(histLBP, LBPHists(1, :));
-    NBTDist = distance(histNBT, RGBHists(1, :));
+    NBTDist = 0;%distance(histNBT, RGBHists(1, :));
     similarImageIndex = 1; 
     
     for j=2:size(RGBHists, 1), %size(RGBHists, 1) is actually the numOfBins defined in RGBHist.m
         currentRGBDist = distance(histRGB, RGBHists(j, :));
         currentLBPDist = distance(histLBP, LBPHists(j, :));
-        currentNBTDist = distance(histNBT, RGBHists(j, :));
+        currentNBTDist = 0;%distance(histNBT, RGBHists(j, :));
         
         if diffFunction(currentRGBDist, currentLBPDist, currentNBTDist) ...
                 < diffFunction(RGBDist, LBPDist, NBTDist)
@@ -37,6 +37,6 @@ end
 %%Determines the amount of difference in two images by comparing their
 %%similarity via a linear combination of a number of difference metrics
 function [ diff ] = diffFunction(RGBDist, LBPDist, NBTDist)
-    diff = 0.6 * RGBDist + 0.3 * LBPDist + 0.1 * NBTDist;
+    diff = 0.6 * RGBDist + 1 * LBPDist + 0 * NBTDist;
 end
 

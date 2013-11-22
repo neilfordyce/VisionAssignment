@@ -7,7 +7,7 @@ function [ similarImageIndex ] = getMostSimilarImage(targetPatch, NBPatch, RGBHi
     histLBP = LBPHist(targetPatch);
 
     %Compute RGB histogram of target patch
-    histRGB = RGBHist(targetPatch);
+    histRGB = RGBMean(targetPatch);
     
     %Compute RGB histogram of target patch
     %histNBT = RGBHist(NBPatch);

@@ -31,6 +31,8 @@ function [ similarImageIndex ] = getMostSimilarImage(targetPatch, NBPatch, RGBHi
             similarImageIndex = j;
         end
     end
+    
+    O = O(2*PATCH_SIZE:size(I, 1)-2*PATCH_SIZE, 2*PATCH_SIZE:size(I, 2)-2*PATCH_SIZE, :);
 end
 
 

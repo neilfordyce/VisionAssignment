@@ -16,7 +16,7 @@ function [ O ] = imageMosaic( I, MAN_PATH, NAT_PATH, PATCH_SIZE )
     
     for j = 1:size(images, 4) %size(images, 4) is actually the total number of all images
         image = images(:,:,:,j);
-        RGBHists = [RGBHists; RGBHist(image)]; %adds a new element into the histogram each time it iterates
+        RGBHists = [RGBHists; RGBMean(image)]; %adds a new element into the histogram each time it iterates
         LBPHists = [LBPHists; LBPHist(image)];
     end
 
@@ -34,5 +34,7 @@ function [ O ] = imageMosaic( I, MAN_PATH, NAT_PATH, PATCH_SIZE )
             O(j+1:j+PATCH_SIZE, k+1:k+PATCH_SIZE, :) = images(:, :, :, subImageIndex);
         end
     end
+    
+    O = O(2*PATCH_SIZE:size(I, 1)-2*PATCH_SIZE, 2*PATCH_SIZE:size(I, 2)-2*PATCH_SIZE, :);
 end
 

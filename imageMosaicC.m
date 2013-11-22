@@ -9,7 +9,7 @@ function [ O ] = imageMosaicC( I, classifiedPath, PATCH_SIZE )
     
     for j = 1:size(images, 4)
         image = images(:,:,:,j);
-        RGBHists = [RGBHists; RGBHist(image)];
+        RGBHists = [RGBHists; RGBMean(image)];
         LBPHists = [LBPHists; LBPHist(image)];
     end
         
@@ -24,5 +24,5 @@ function [ O ] = imageMosaicC( I, classifiedPath, PATCH_SIZE )
             O(j+1:j+PATCH_SIZE, k+1:k+PATCH_SIZE, :) = images(:, :, :, subImageIndex);
         end
     end
-    
+    O = O(2*PATCH_SIZE:size(I, 1)-2*PATCH_SIZE, 2*PATCH_SIZE:size(I, 2)-2*PATCH_SIZE, :);
 end

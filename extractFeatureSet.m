@@ -4,19 +4,19 @@ function [ featureSet ] = extractFeatureSet( I )
     bottom = I(uint16(size(I,1)/2) + 1:end, :,:);
 
     %Extract info about lines
-    [lineCount, lineLengthMean, lineLengthVar, topLines] = extractLines(I);
+    [lineCount, lineLengthMean, lineLengthVar, topLines, lineOrientationVariance] = extractLines(I);
     
     %Calculate connected components of edges stats
     [meanArea, varArea, meanPerim, varPerim] = connectedCompStats(I);
     
-    featureSet = [RGBHist(top, 16), RGBHist(bottom, 16), topLines, ...
-        lineCount, lineLengthMean, lineLengthVar, meanArea, varArea, ... 
-        meanPerim, varPerim];
+    featureSet = [RGBHist(top, 16, 1), RGBHist(bottom, 16, 1), topLines, ...
+        lineCount, lineLengthMean, lineLengthVar, ...
+        meanArea, varArea, meanPerim, varPerim];
 end
 
 %%Applies hough transform to lines and extracts features based on
 %%identified lines
-function [lineCount, lineLengthMean, lineLengthVar, topLines] = extractLines(I)
+function [lineCount, lineLengthMean, lineLengthVar, topLines, lineOrientationVariance] = extractLines(I)
     MAX_LINES = 5;  %Max number of lines to classify
     lineCount = 0;
     lineLengthMean = -1;
@@ -36,9 +36,9 @@ function [lineCount, lineLengthMean, lineLengthVar, topLines] = extractLines(I)
         %lineOrientationVariance = mean([lines(:).orientation]);
         lineLengthMean = mean([lines(:).length]);
         lineLengthVar = var([lines(:).length]);
+        lineOrientationVariance = var([lines(:).orientation]);
     catch err
        %Exception here means that no lines were found 
-       'No Lines'
        lines = [];
     end
     
